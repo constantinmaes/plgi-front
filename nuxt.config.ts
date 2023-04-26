@@ -8,4 +8,10 @@ export default defineNuxtConfig({
     build: {
         transpile: ['primevue'],
     },
+    runtimeConfig: {
+        // Config within public will be also exposed to the client
+        public: {
+            apiUrl: 'http://localhost:3000',
+        },
+    },
 });

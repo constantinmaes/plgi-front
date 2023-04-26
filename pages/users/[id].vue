@@ -1,13 +1,16 @@
-<template>Je suis user avec id {{ id }}</template>
+<template>{{ user }}</template>
 
 <script setup lang="ts">
+import { User } from '~/types';
 import $http from '~/utils/http';
 
-const id = ref<string | null>(null);
+const id = ref<string | null>();
+const user = ref<User>();
 
-onMounted(() => {
+onMounted(async () => {
     const route = useRoute();
     id.value = <string>route.params.id;
-    $http.get(`/users/${id}`);
+    const { data } = await $http.get(`/users/${id.value}`);
+    user.value = data;
 });
 </script>
