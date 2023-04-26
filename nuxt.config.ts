@@ -14,4 +14,5 @@ export default defineNuxtConfig({
             apiUrl: 'http://localhost:3000',
         },
     },
+    modules: ['@pinia/nuxt'],
 });
