@@ -1,5 +1,12 @@
 <template>
-    <Dialog v-model:visible="visible">
+    <Dialog
+        v-model:visible="visible"
+        close-on-escape
+        dismissable-mask
+        draggable
+        :modal="true"
+        @hide="deleteUser"
+    >
         <div v-if="user">
             <p>User {{ user.email }}</p>
         </div>
@@ -14,7 +21,9 @@
         <Column field="_id">
             <template #body="{ data }">
                 <!--<NuxtLink :to="'/users/' + data._id">Voir</NuxtLink>-->
-                <span @click="toggleDialog(data._id)">Voir</span>
+                <span style="cursor: pointer" @click="toggleDialog(data._id)"
+                    >Voir</span
+                >
             </template>
         </Column>
     </DataTable>
@@ -28,14 +37,16 @@ const user = ref<User>();
 const users = ref([]);
 const visible = ref(false);
 
+const deleteUser = () => {
+    user.value = undefined;
+};
+
 const toggleDialog = async (_id: string) => {
     if (!visible.value) {
         setTimeout(async () => {
             const { data } = await $http.get(`/users/${_id}`);
             user.value = data;
         }, 2000);
-    } else {
-        user.value = undefined;
     }
 
     visible.value = !visible.value;
