@@ -14,7 +14,7 @@
             <Skeleton width="10rem"></Skeleton>
         </div>
     </Dialog>
-    <DataTable :value="users">
+    <DataTable :value="usersStore.users">
         <Column field="name" header="Name" sortable></Column>
         <Column field="email" header="Email address" sortable></Column>
         <Column field="age" header="Age"></Column>
@@ -30,11 +30,13 @@
 </template>
 
 <script setup lang="ts">
+import { useUsersStore } from '~/store';
 import { User } from '~/types';
 import $http from '~/utils/http';
 
+const usersStore = useUsersStore();
+
 const user = ref<User>();
-const users = ref([]);
 const visible = ref(false);
 
 const deleteUser = () => {
@@ -53,7 +55,8 @@ const toggleDialog = async (_id: string) => {
 };
 
 onMounted(async () => {
-    const { data } = await $http.get('/users');
-    users.value = data;
+    usersStore.getUsers();
 });
 </script>
+
+// DRY - Don't Repeat Yourself // KISS - Keep It Simple, Stupid
