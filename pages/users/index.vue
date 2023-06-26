@@ -14,7 +14,8 @@
             <Skeleton width="10rem"></Skeleton>
         </div>
     </Dialog>
-    <DataTable :value="usersStore.users">
+    <div v-if="usersStore.loading">LOADING</div>
+    <DataTable v-if="!usersStore.loading" :value="usersStore.users">
         <Column field="name" header="Name" sortable></Column>
         <Column field="email" header="Email address" sortable></Column>
         <Column field="age" header="Age"></Column>
